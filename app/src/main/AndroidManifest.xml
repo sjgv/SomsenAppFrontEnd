@@ -19,6 +19,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".AccountCreationActivity"></activity>
+        <activity android:name=".AccountLobbyActivity"></activity>
+        <activity android:name=".AccountActivity"></activity>
+
     </application>
 
 </manifest>

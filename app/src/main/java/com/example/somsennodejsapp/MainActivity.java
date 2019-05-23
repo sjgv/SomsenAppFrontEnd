@@ -1,5 +1,6 @@
 package com.example.somsennodejsapp;
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -58,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         btn_login = (MaterialButton)findViewById(R.id.login_btn);
         edit_email = (MaterialEditText) findViewById(R.id.edit_email);
         edit_password = (MaterialEditText) findViewById(R.id.edit_password);
-        edit_phone = (MaterialEditText)findViewById(R.id.edit_phone_number);
 
         //Event
         btn_login.setOnClickListener(new View.OnClickListener(){
@@ -133,10 +133,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
                         //MaterialEditText edit_phone =(MaterialEditText)enter_phone_number_view.findViewById(R.id.edit_phone_number);
+                        edit_phone = (MaterialEditText) enter_phone_number_view.findViewById(R.id.edit_phone_number);
                         String phone = edit_phone.getText().toString();
-                        boolean validPhone = phoneValidator(phone);
 
-                        if(validPhone) {
+                        if(phoneValidator(phone)) {
                             compositeDisposable.add(loginAPI.registerUser(email, phone, password)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -163,8 +163,15 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        if(s.contains("encrypted_password"))
-                            Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                        if(s.contains("encrypted_password")){
+                            int sub_idx_start = s.indexOf("unique_id");
+                            int sub_idx_end = s.indexOf("phone");
+                            // We keep the unique_id field for persistence (other tables will have this as key)
+                            UserState.getInstance().unique_id = s.substring(sub_idx_start, sub_idx_end-2);
+                            startActivity(new Intent(MainActivity.this, AccountLobbyActivity.class));
+                            //Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
+                        }
                         else
                             Toast.makeText(MainActivity.this,""+s, Toast.LENGTH_SHORT).show(); //show error from API
                     }

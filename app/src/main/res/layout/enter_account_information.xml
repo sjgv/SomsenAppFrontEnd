@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edit_name"
+        android:hint="Enter Name"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:met_textColor="#AFAFAF"
+        app:met_baseColor="#000000"
+        app:met_primaryColor="#3131e5"
+        app:met_iconPadding="3dp"
+
+        />
+    <!--app:met_iconLeft="@drawable/user_icon" -->
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edit_lastname"
+        android:hint="Enter Last Name"
+        android:layout_below="@+id/edit_name"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:met_textColor="#AFAFAF"
+        app:met_baseColor="#000000"
+        app:met_primaryColor="#3131e5"
+        app:met_iconPadding="3dp"
+        />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edit_state"
+        android:hint="Enter State"
+        android:layout_below="@+id/edit_lastname"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:met_textColor="#AFAFAF"
+        app:met_baseColor="#000000"
+        app:met_primaryColor="#3131e5"
+        app:met_iconPadding="3dp"
+        />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edit_city"
+        android:hint="Enter City"
+        android:layout_below="@+id/edit_state"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:met_textColor="#AFAFAF"
+        app:met_baseColor="#000000"
+        app:met_primaryColor="#3131e5"
+        app:met_iconPadding="3dp"
+        />
+
+</RelativeLayout>
+
+
