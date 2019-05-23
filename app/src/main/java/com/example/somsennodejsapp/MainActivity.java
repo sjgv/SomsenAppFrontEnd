@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     INodeJS loginAPI;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    MaterialEditText edit_email, edit_password;
+    MaterialEditText edit_email, edit_password, edit_phone;
     MaterialButton btn_register, btn_login;
 
     @Override
@@ -58,32 +58,68 @@ public class MainActivity extends AppCompatActivity {
         btn_login = (MaterialButton)findViewById(R.id.login_btn);
         edit_email = (MaterialEditText) findViewById(R.id.edit_email);
         edit_password = (MaterialEditText) findViewById(R.id.edit_password);
+        edit_phone = (MaterialEditText)findViewById(R.id.edit_phone_number);
 
         //Event
         btn_login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                loginUser(edit_email.getText().toString(), edit_password.getText().toString());
+                //loginUser(edit_email.getText().toString(), edit_password.getText().toString());
+                String pass = edit_password.getText().toString();
+                String email = edit_email.getText().toString();
+                //Check if empty
+                boolean validEmail = emailValidator(email);
+                boolean validPass = passwordValidator(pass);
+                if (validEmail && validPass)
+                    loginUser(email, pass);
+                else
+                {
+                    if (!validEmail)
+                        Toast.makeText(MainActivity.this, "Invalid email, must be a valid address.", Toast.LENGTH_SHORT).show();
+
+                    else if (!validPass)
+                        Toast.makeText(MainActivity.this, "Invalid Password, please include a number, a special character and a capital letter. No spaces allowed. 6 char minimum.", Toast.LENGTH_LONG).show();
+
+
+                }
             }
         });
 
         btn_register.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                registerUser(edit_email.getText().toString(), edit_password.getText().toString());
+                //registerUser(edit_email.getText().toString(), edit_password.getText().toString());
+                String pass = edit_password.getText().toString();
+                String email = edit_email.getText().toString();
+
+                //Check if empty
+                boolean validEmail = emailValidator(email);
+                boolean validPass = passwordValidator(pass);
+
+                if (validEmail && validPass)
+                    registerUser(email, pass);
+                else
+                {
+                    if (!validEmail)
+                        Toast.makeText(MainActivity.this, "Invalid email, must be a valid address.", Toast.LENGTH_SHORT).show();
+
+                    else if (!validPass)
+                        Toast.makeText(MainActivity.this, "Invalid Password, please include a number, a special character and a capital letter. No spaces allowed. 6 char minimum.", Toast.LENGTH_LONG).show();
+
+                }
             }
         });
     }
 
 
     private void registerUser(final String email, final String password) {
-        final View enter_name_view = LayoutInflater.from(this).inflate(R.layout.enter_name_layout, null);
+        final View enter_phone_number_view = LayoutInflater.from(this).inflate(R.layout.enter_phone_number_layout, null);
 
         new MaterialStyledDialog.Builder(this)
-                .setTitle("What should we call you?")
-                .setDescription("Enter Name")
-                .setCustomView(enter_name_view)
-                .setIcon(R.drawable.user_icon)
+                .setTitle("Please Enter Your Phone Number")
+                .setDescription("Enter Mobile Number")
+                .setCustomView(enter_phone_number_view)
+                .setIcon(R.drawable.phone_iconpng)
                 .setNegativeText("Cancel")
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -96,18 +132,25 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
-                        MaterialEditText edit_name =(MaterialEditText)enter_name_view.findViewById(R.id.edit_name);
+                        //MaterialEditText edit_phone =(MaterialEditText)enter_phone_number_view.findViewById(R.id.edit_phone_number);
+                        String phone = edit_phone.getText().toString();
+                        boolean validPhone = phoneValidator(phone);
 
-                        compositeDisposable.add(loginAPI.registerUser(email,edit_name.getText().toString(),password)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Consumer<String>() {
-                                    @Override
-                                    public void accept(String s) throws Exception {
-                                        Toast.makeText(MainActivity.this, ""+s, Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                        );
+                        if(validPhone) {
+                            compositeDisposable.add(loginAPI.registerUser(email, phone, password)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Consumer<String>() {
+                                        @Override
+                                        public void accept(String s) throws Exception {
+                                            Toast.makeText(MainActivity.this, "" + s, Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                            );
+                        }
+                        else
+                            Toast.makeText(MainActivity.this, "Invalid Phone Number", Toast.LENGTH_SHORT).show();
+
                     }
                 }).show();
     }
@@ -128,6 +171,79 @@ public class MainActivity extends AppCompatActivity {
                 })
         );
     }
+
+    //HELPER METHODS
+    private boolean phoneValidator(String phone){
+        if (phone.length() > 10)
+            return false;
+        else if (phone.length() < 10)
+            return false;
+        //I'm pretty sure they can't input anything that is not numbers thats why we don't check [MAKE SURE]
+        else
+            return true;
+    }
+
+    private boolean emailValidator(String email) {
+        boolean length = false;
+        boolean at = false;
+        boolean dot = false;
+        if (email.length() > 100)
+            length = true;
+
+        for (char c : email.toCharArray()){
+            if (c == '@')
+                at = true;
+            if (c == '.')
+                dot = true;
+        }
+
+        if(at && dot && !length)
+            return true;
+        else
+            return false;
+
+    }
+
+    private boolean passwordValidator(String pass) {
+        boolean toolong = false;
+        boolean minimumlength = false;
+        boolean number = false;
+        boolean capital = false;
+        boolean special = false;
+        boolean whitespace = false;
+        if (pass.length() > 50)
+            toolong = true;
+        if (pass.length() > 5)
+            minimumlength = true;
+
+        for (char c : pass.toCharArray())
+        {
+            if(Character.isDigit(c))
+            {
+                number = true;
+            }
+            else if(Character.isUpperCase(c))
+            {
+                capital = true;
+            }
+            else if(!Character.isLetter(c))
+            {
+                if(!Character.isDigit(c))
+                {
+                    if (!Character.isSpaceChar(c))
+                        special = true;
+                    else if (Character.isSpaceChar(c))
+                        whitespace = true;
+
+                }
+            }
+        }
+        if (number && capital && special && minimumlength && !toolong && !whitespace)
+            return true;
+        else
+            return false;
+    }
+
 
 
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.rengwuxian.materialedittext.MaterialEditText
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_phone_number"
+    android:hint="Enter Cell Phone Number"
+    android:inputType="phone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:met_textColor="#AFAFAF"
+    app:met_baseColor="@color/white"
+    app:met_primaryColor="@color/white"
+    app:met_iconLeft="@drawable/phone_iconpng"
+    app:met_iconPadding="3dp"
+    />
