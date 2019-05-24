@@ -9,7 +9,7 @@
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/welcome_text"
-            android:text="Welcome! we do not have your profile information. Please create an account."
+            android:text="Welcome! we do not have your profile information. Please fill out your pofile."
             android:textSize="20dp"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/create_account_button"
             android:layout_below="@+id/welcome_text"
-            android:text="Create Account"
+            android:text="Create Profile"
             android:layout_margin="10dp"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"

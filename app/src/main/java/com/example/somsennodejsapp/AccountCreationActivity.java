@@ -1,5 +1,7 @@
 package com.example.somsennodejsapp;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -65,7 +67,8 @@ public class AccountCreationActivity extends AppCompatActivity {
         final View enter_account_info = LayoutInflater.from(this).inflate(R.layout.enter_account_information, null);
 
         new MaterialStyledDialog.Builder(this)
-                .setTitle("Account Information")
+                .setTitle("Profile Information")
+                .setIcon(R.drawable.user_icon)
                 .setCustomView(enter_account_info)
                 .setNegativeText("Cancel")
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -95,8 +98,8 @@ public class AccountCreationActivity extends AppCompatActivity {
                                         UserState.getInstance().lastname = edit_last_name.getText().toString();
                                         UserState.getInstance().state = edit_state.getText().toString();
                                         UserState.getInstance().city = edit_city.getText().toString();
-
                                         Toast.makeText(AccountCreationActivity.this, ""+s, Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(AccountCreationActivity.this, AccountActivity.class));
                                     }
                                 })
                         );
