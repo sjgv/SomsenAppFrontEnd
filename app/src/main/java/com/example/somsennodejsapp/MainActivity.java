@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,8 @@ import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.google.android.material.button.MaterialButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+
+import org.json.JSONObject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -137,12 +140,13 @@ public class MainActivity extends AppCompatActivity {
                         String phone = edit_phone.getText().toString();
 
                         if(phoneValidator(phone)) {
-                            compositeDisposable.add(loginAPI.registerUser(email, phone, password)
+                            compositeDisposable.add(loginAPI.registerUser(email.toLowerCase(), phone, password)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Consumer<String>() {
                                         @Override
                                         public void accept(String s) throws Exception {
+                                            //Populate UserState.getInstance() here!
                                             Toast.makeText(MainActivity.this, "" + s, Toast.LENGTH_SHORT).show();
                                         }
                                     })
@@ -163,11 +167,18 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        if(s.contains("encrypted_password")){
-                            int sub_idx_start = s.indexOf("unique_id");
-                            int sub_idx_end = s.indexOf("phone");
+                        JSONObject response = new JSONObject(s);
+                        //Get token
+                        String token = response.getString("token");
+                        String uid = response.getJSONObject("user").getString("uid");
+
+                        Log.d("TESTINGXXX", token );
+                        if(token != null && token.length() > 0){
+                            //Populate UserState.getInstance() here!
                             // We keep the unique_id field for persistence (other tables will have this as key)
-                            UserState.getInstance().unique_id = s.substring(sub_idx_start, sub_idx_end-2);
+                            //UserState.getInstance().unique_id = s.substring(sub_idx_start, sub_idx_end-2);
+                            UserState.getInstance().token = token;
+                            UserState.getInstance().unique_id = uid;
                             startActivity(new Intent(MainActivity.this, AccountLobbyActivity.class));
                             //Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 

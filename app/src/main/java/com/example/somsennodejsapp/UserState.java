@@ -7,6 +7,7 @@ Used for keeping User Info after logging in.
 class UserState {
     private static UserState mInstance = null;
 
+    public String token = "";
     public String unique_id = "";
     public String name = "";
     public String lastname = "";

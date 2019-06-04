@@ -3,6 +3,7 @@ package com.example.somsennodejsapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,31 +44,25 @@ public class AccountLobbyActivity extends AppCompatActivity {
         loginAPI = retrofit.create(INodeJS.class);
         //Check if the user has an account associated
         getAccount();
+        finish();
 
     }
 
     //Send info to API and wait for response
     private void getAccount(){
-        compositeDisposable.add(loginAPI.getAccount(UserState.getInstance().unique_id)
+        compositeDisposable.add(loginAPI.getAccount("Bearer " + UserState.getInstance().token,UserState.getInstance().unique_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
                         //If response contains some_field then it came back true
-                        if(s.contains("name")) {
+                        if(s.contains("unique_id")) {
                             JSONObject response = new JSONObject(s);
-                            UserState.getInstance().name = response.getString("name");
-                            //System.out.println("XXXXX");
-                            //System.out.println(response.getString("name"));
-                            /*
-                            UserState.getInstance().lastname = edit_last_name.getText().toString();
-                            UserState.getInstance().state = edit_state.getText().toString();
-                            UserState.getInstance().city = edit_city.getText().toString();
-                            */
-                            //Toast.makeText(AccountLobbyActivity.this, "Account Creation Successful ", Toast.LENGTH_SHORT).show();
+                            UserState.getInstance().name = response.getString("first_name");
+                            UserState.getInstance().state = response.getString("state");
+                            UserState.getInstance().city = response.getString("city");
                             startActivity(new Intent(AccountLobbyActivity.this, AccountActivity.class));
-
                         }
                         else
                         {

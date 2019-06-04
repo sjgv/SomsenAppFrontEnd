@@ -87,8 +87,9 @@ public class AccountCreationActivity extends AppCompatActivity {
                         final MaterialEditText edit_state = (MaterialEditText)enter_account_info.findViewById(R.id.edit_state);
                         final MaterialEditText edit_city = (MaterialEditText)enter_account_info.findViewById(R.id.edit_city);
 
-                        compositeDisposable.add(loginAPI.setAccount(UserState.getInstance().unique_id,
-                                edit_name.getText().toString(),edit_last_name.getText().toString(), edit_state.getText().toString(),edit_city.getText().toString())
+                        compositeDisposable.add(loginAPI.setAccount("Bearer " + UserState.getInstance().token,
+                                UserState.getInstance().unique_id, edit_name.getText().toString(),edit_last_name.getText().toString(),
+                                edit_state.getText().toString(),edit_city.getText().toString())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Consumer<String>() {
