@@ -1,7 +1,6 @@
 package com.example.somsennodejsapp;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -63,6 +62,14 @@ public class AccountCreationActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+    }
+
     private void createAccount() {
         final View enter_account_info = LayoutInflater.from(this).inflate(R.layout.enter_account_information, null);
 
@@ -100,7 +107,7 @@ public class AccountCreationActivity extends AppCompatActivity {
                                         UserState.getInstance().state = edit_state.getText().toString();
                                         UserState.getInstance().city = edit_city.getText().toString();
                                         Toast.makeText(AccountCreationActivity.this, ""+s, Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(AccountCreationActivity.this, AccountActivity.class));
+                                        startActivity(new Intent(AccountCreationActivity.this, DashboardActivity.class));
                                     }
                                 })
                         );

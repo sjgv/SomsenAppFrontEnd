@@ -147,7 +147,15 @@ public class MainActivity extends AppCompatActivity {
                                         @Override
                                         public void accept(String s) throws Exception {
                                             //Populate UserState.getInstance() here!
-                                            Toast.makeText(MainActivity.this, "" + s, Toast.LENGTH_SHORT).show();
+                                            if (s.contains("Error"))
+                                                Toast.makeText(MainActivity.this, "User Already Exists", Toast.LENGTH_SHORT).show();
+                                            else{
+                                                JSONObject response = new JSONObject(s);
+                                                UserState.getInstance().token = response.getString("token");
+                                                UserState.getInstance().unique_id = response.getJSONObject("user").getString("uid");
+                                                startActivity(new Intent(MainActivity.this, AccountLobbyActivity.class));
+                                                finish();
+                                            }
                                         }
                                     })
                             );
@@ -180,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
                             UserState.getInstance().token = token;
                             UserState.getInstance().unique_id = uid;
                             startActivity(new Intent(MainActivity.this, AccountLobbyActivity.class));
+                            finish();
                             //Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
                         }

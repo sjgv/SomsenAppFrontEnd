@@ -3,9 +3,6 @@ package com.example.somsennodejsapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.somsennodejsapp.Retrofit.INodeJS;
 import com.example.somsennodejsapp.Retrofit.RetrofitClient;
@@ -62,7 +59,7 @@ public class AccountLobbyActivity extends AppCompatActivity {
                             UserState.getInstance().name = response.getString("first_name");
                             UserState.getInstance().state = response.getString("state");
                             UserState.getInstance().city = response.getString("city");
-                            startActivity(new Intent(AccountLobbyActivity.this, AccountActivity.class));
+                            startActivity(new Intent(AccountLobbyActivity.this, DashboardActivity.class));
                         }
                         else
                         {
