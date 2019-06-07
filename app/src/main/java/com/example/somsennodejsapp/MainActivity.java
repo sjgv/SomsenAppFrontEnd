@@ -176,11 +176,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void accept(String s) throws Exception {
                         JSONObject response = new JSONObject(s);
-                        //Get token
-                        String token = response.getString("token");
-                        String uid = response.getJSONObject("user").getString("uid");
+                        String token = "";
+                        String uid = "";
+                        try {
+                            //Get token
+                            token = response.getString("token");
+                            uid = response.getJSONObject("user").getString("uid");
+                        }catch(Exception e){
+                            Log.d("LOGIN", e.toString());
+                        }
 
-                        Log.d("TESTINGXXX", token );
                         if(token != null && token.length() > 0){
                             //Populate UserState.getInstance() here!
                             // We keep the unique_id field for persistence (other tables will have this as key)
@@ -193,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                         else
-                            Toast.makeText(MainActivity.this,""+s, Toast.LENGTH_SHORT).show(); //show error from API
+                            Toast.makeText(MainActivity.this,""+response.getString("message"), Toast.LENGTH_SHORT).show(); //show error from API
                     }
                 })
         );

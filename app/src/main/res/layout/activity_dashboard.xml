@@ -1,45 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<RelativeLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_bg"
+    android:background="@color/white"
+    android:id="@+id/drawer_layout"
+    android:fitsSystemWindows="true"
     tools:context=".DashboardActivity">
 
-    android:layout_width="match_parent"
-    android:background="#FF008080"
-    android:layout_height="match_parent">
     <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:id="@+id/toolbar"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:elevation="4dp"
+            />
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
         <TextView
             android:id="@+id/welcome_text_name"
             android:text="Welcome!"
             android:textSize="20dp"
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
             android:layout_marginTop="100dp"
             />
+
         <View
             android:layout_below="@+id/welcome_text_name"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:background="@android:color/holo_blue_bright"
+            android:background="@color/colorAccent"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/logout_btn"
-            android:layout_below="@id/welcome_text_name"
-            android:text="Log out"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </RelativeLayout>
 
-</RelativeLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_menu"
+        />
+
+</android.support.v4.widget.DrawerLayout>

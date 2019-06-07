@@ -22,7 +22,8 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".AccountCreationActivity"></activity>
         <activity android:name=".AccountLobbyActivity"></activity>
-        <activity android:name=".DashboardActivity"></activity>
+        <activity android:name=".DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
     </application>
 
