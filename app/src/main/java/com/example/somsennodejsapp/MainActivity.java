@@ -21,6 +21,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONObject;
 
+import java.io.Console;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -153,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                                                 JSONObject response = new JSONObject(s);
                                                 UserState.getInstance().token = response.getString("token");
                                                 UserState.getInstance().unique_id = response.getJSONObject("user").getString("uid");
+                                                UserState.getInstance().email = email;
                                                 startActivity(new Intent(MainActivity.this, AccountLobbyActivity.class));
                                                 finish();
                                             }
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void loginUser(String email, String password){
+    private void loginUser(final String email, String password){
         compositeDisposable.add(loginAPI.loginUser(email, password)
         .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -187,11 +190,28 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if(token != null && token.length() > 0){
-                            //Populate UserState.getInstance() here!
+                            //Log.d("XxXxXxZxZxZxXxXx",UserState.getInstance().email);
+
+                            compositeDisposable.add(loginAPI.getAccount("Bearer " + token, uid)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Consumer<String>(){
+                                        @Override
+                                        public void accept(String s) throws Exception {
+                                            //This should always return only result, enforced by register
+                                            JSONObject response = new JSONObject(s);
+                                            UserState.getInstance().name = response.getString("first_name");
+                                            UserState.getInstance().state = response.getString("state");
+                                            UserState.getInstance().city = response.getString("city");
+                                            Log.d("XxXxXxZxZxZxXxXx",s);
+                                        }
+                                    }));
+
                             // We keep the unique_id field for persistence (other tables will have this as key)
                             //UserState.getInstance().unique_id = s.substring(sub_idx_start, sub_idx_end-2);
                             UserState.getInstance().token = token;
                             UserState.getInstance().unique_id = uid;
+                            UserState.getInstance().email = email;
                             startActivity(new Intent(MainActivity.this, AccountLobbyActivity.class));
                             finish();
                             //Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();

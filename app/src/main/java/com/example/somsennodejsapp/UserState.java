@@ -9,6 +9,7 @@ class UserState {
 
     public String token = "";
     public String unique_id = "";
+    public String email = "";
     public String name = "";
     public String lastname = "";
     public String state = "";

@@ -26,7 +26,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     INodeJS loginAPI;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    TextView welcome_text;
+    TextView welcome_text, email_header;
     private DrawerLayout drawer;
 
     @Override
@@ -46,7 +46,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
         }
-
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -79,6 +78,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         //Initialize other fields
         welcome_text = (TextView)findViewById(R.id.welcome_text_name);
+        email_header = (TextView) navigationView.getHeaderView(0).findViewById(R.id.header_email);
+
+        email_header.setText(UserState.getInstance().email);
         welcome_text.setText("Some slogan!");
     }
 
