@@ -50,6 +50,14 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"/>
 
+        <ListView
+            android:id="@+id/biz_list"
+            android:layout_below="@id/welcome_text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
+
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

@@ -1,5 +1,4 @@
 package com.example.somsennodejsapp;
-import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -20,8 +18,6 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 
 import org.json.JSONObject;
-
-import java.io.Console;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -190,9 +186,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if(token != null && token.length() > 0){
-                            //Log.d("XxXxXxZxZxZxXxXx",UserState.getInstance().email);
-
-                            compositeDisposable.add(loginAPI.getAccount("Bearer " + token, uid)
+                            compositeDisposable.add(loginAPI.getUserInfo("Bearer " + token, uid)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Consumer<String>(){
@@ -203,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
                                             UserState.getInstance().name = response.getString("first_name");
                                             UserState.getInstance().state = response.getString("state");
                                             UserState.getInstance().city = response.getString("city");
-                                            Log.d("XxXxXxZxZxZxXxXx",s);
                                         }
                                     }));
 

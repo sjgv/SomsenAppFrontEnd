@@ -21,15 +21,21 @@ public interface INodeJS {
 
     @POST("getuserinfo")
     @FormUrlEncoded
-    Observable<String> getAccount(@Header("Authorization") String token,
-                                    @Field("unique_id") String unique_id);
+    Observable<String> getUserInfo(@Header("Authorization") String token,
+                                   @Field("unique_id") String unique_id);
 
     @POST("setuserinfo")
     @FormUrlEncoded
-    Observable<String> setAccount(@Header("Authorization") String token,
-                                    @Field("unique_id") String unique_id,
-                                    @Field("name") String name,
-                                    @Field("lastname") String lastname,
-                                    @Field("state") String state,
-                                    @Field("city") String city);
+    Observable<String> setUserInfo(@Header("Authorization") String token,
+                                   @Field("unique_id") String unique_id,
+                                   @Field("name") String name,
+                                   @Field("lastname") String lastname,
+                                   @Field("state") String state,
+                                   @Field("city") String city);
+
+    @POST("getnearestbiz")
+    @FormUrlEncoded
+    Observable<String> getNearestBiz(@Header("Authorization") String token,
+                                     @Field("lat") Double lat,
+                                     @Field("lon") Double lon);
 }

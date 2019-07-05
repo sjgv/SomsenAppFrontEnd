@@ -47,7 +47,7 @@ public class AccountLobbyActivity extends AppCompatActivity {
 
     //Send info to API and wait for response
     private void getAccount(){
-        compositeDisposable.add(loginAPI.getAccount("Bearer " + UserState.getInstance().token,UserState.getInstance().unique_id)
+        compositeDisposable.add(loginAPI.getUserInfo("Bearer " + UserState.getInstance().token,UserState.getInstance().unique_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
